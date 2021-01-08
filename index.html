@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="icon" href="favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Linear Regression and stuff</title>
-    <link rel="stylesheet" href="    https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
     <script defer src="sketch.js"></script>
 
 </head>
@@ -16,6 +19,13 @@
     <div id="abs_dev"></div>
     <div id="lss"></div>
     <div id="biq"></div>
+
+
+    <label for="cb_abs">Absolute Abweichugen anzeigen</label>
+    <input type="checkbox" id="cb_abs" name="cb_abs">
+
+    <label for="cb_quad">Quadratische Abweichugen anzeigen</label>
+    <input type="checkbox" id="cb_quad" name="cb_quad">
 
     <label for="k">K</label>
     <input type="range" id="k" name="k" min="-5" max="5" value="1" step="0.01">

@@ -1,11 +1,16 @@
 let k = 1
 let d = 0
+let show_abs_dev = false
+let show_quad_dev = false
+
+
 
 let current_f = document.querySelector("#current_f")
 let abs_dev = document.querySelector("#abs_dev")
 let lss = document.querySelector("#lss")
 let biq = document.querySelector("#biq")
-
+let cb_abs = document.querySelector("#cb_abs")
+let cb_quad = document.querySelector("#cb_quad")
 
 let canvas = document.querySelector("#canvas")
 let context = canvas.getContext("2d")
@@ -44,14 +49,41 @@ d_slider.addEventListener("input", () => {
     update()
 })
 
+cb_abs.addEventListener("change", (e) => {
+    console.log("hi")
+    if(e.target.checked) {
+        show_abs_dev = true
+    } else {
+        show_abs_dev = false
+    }
+    update()
+})
+
+cb_quad.addEventListener("change", (e) => {
+    if(e.target.checked) {
+        show_quad_dev = true
+    } else {
+        show_quad_dev = false
+    }
+    update()
+})
+
+
+
 function update() {
     update_heading()
     context.clearRect(0,0, WIDTH, HEIGHT)
+
     draw_axes_and_tickmarks()
+    let epsilons = calc_epsilons(k,d, testpoints);
+    console.log(epsilons)
+    update_loss_fs(epsilons)
+
+    if(show_abs_dev)draw_abs_dev(epsilons)
+    if(show_quad_dev)draw_quad_dev(epsilons)
+
     draw_points(testpoints)
     draw_function(k,d)
-    let epsilons = calc_epsilons(k,d, testpoints);
-    update_loss_fs(epsilons)
 
 }
 
@@ -88,6 +120,7 @@ function draw_axes_and_tickmarks() {
 }
 
 function draw_function(k, d) {
+
     let start = [0, d]
     let end = [10, k*10+d]
 
@@ -104,7 +137,7 @@ function calc_epsilons(k,d, points) {
     for(let x = 0; x < points.length; x++) {
         let f_val = k*points[x][0]+d
         //Berechen der Abweichung, Punkt-Y - Funktionswert
-        epsilons.push(parseFloat(points[x][1] - f_val).toFixed(2))
+        epsilons.push(parseFloat(points[x][1] - f_val).toFixed(6))
     }
     return epsilons
 }
@@ -121,7 +154,6 @@ function update_loss_fs(epsilons) {
         sum_biq+= epsilons[x]*epsilons[x]*epsilons[x]*epsilons[x]
     }
 
-
     sum = parseFloat(sum).toFixed(2)
     sum_lss = parseFloat(sum_lss).toFixed(2)
     sum_biq = parseFloat(sum_biq).toFixed(2)
@@ -131,4 +163,40 @@ function update_loss_fs(epsilons) {
 
 }
 
+function draw_abs_dev(eps) {
+    for(let x = 0; x < testpoints.length; x++) {
+        let xv = testpoints[x][0];
+        let yv = testpoints[x][1];
+        let dev = parseFloat(eps[x])
+
+        let x_coord = xv*x_step
+        let y_start = HEIGHT-yv*y_step
+        let y_end = HEIGHT-(yv-dev)*y_step
+
+        context.strokeStyle = "rgba(249,143,235,0.5)"
+        context.beginPath()
+        context.moveTo(x_coord, y_start)
+        context.lineTo(x_coord, y_end)
+        context.stroke()
+        
+    }
+    context.fillStyle = "black"
+    context.strokeStyle = "black"
+
+}
+
+function draw_quad_dev(eps) {
+    for(let i = 0; i < testpoints.length; i++) {
+        let xv = testpoints[i][0]
+        let yv = testpoints[i][1]
+        let dev = parseFloat(eps[i])
+
+        let x_coord = xv*x_step
+        let y_coord = HEIGHT-yv*y_step
+        
+        context.fillStyle = "rgba(135,244,251,0.3)"
+        context.fillRect(x_coord, y_coord, dev*-x_step, dev*y_step);
+    }
+    context.fillStyle = "black"
+}
 update()
