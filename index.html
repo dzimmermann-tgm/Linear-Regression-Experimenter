@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linear Regression and stuff</title>
+    <link rel="stylesheet" href="    https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
+    <script defer src="sketch.js"></script>
+
+</head>
+<body>
+    <h1>Linear Regression Experimenter</h1>
+
+    <h5 id="current_f"></h5>
+
+    <div id="abs_dev"></div>
+    <div id="lss"></div>
+    <div id="biq"></div>
+
+    <label for="k">K</label>
+    <input type="range" id="k" name="k" min="-5" max="5" value="1" step="0.01">
+
+    <label for="d">D</label>
+    <input type="range" id="d" name="d" min="-5" max="5" value="0" step="0.01"><br>
+
+    <canvas id="canvas" width="1000" height="500"></canvas>
+
+
+</body>
+</html>
