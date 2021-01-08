@@ -89,7 +89,11 @@ function update() {
 
 
 function update_heading() {
-    current_f.innerHTML = "f(x) = " + k + " *x + " + d;
+    if(parseFloat(d) < 0) {
+        current_f.innerHTML = "f(x) = " + k + " *x " + d;
+    } else {
+        current_f.innerHTML = "f(x) = " + k + " *x + " + d;
+    }
 }
 
 function draw_points(points) {
